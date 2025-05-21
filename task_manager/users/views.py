@@ -62,7 +62,7 @@ class UserDeleteView(LoginRequiredMixin, UserPermissionMixin, DeleteView):
             )
             return redirect("users")
 
-        messages.success(self.request, "Пользователь успешно удалён")
+        messages.success(self.request, "Пользователь успешно удален")
         return super().post(request, *args, **kwargs)
 
 
