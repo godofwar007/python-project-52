@@ -3,10 +3,11 @@ from django.urls import include, path
 
 from task_manager.users.views import UserLoginView, UserLogoutView
 
-from .views import home
+from .views import home, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name='index'),
     path('', home, name='home'),
     path('users/', include('task_manager.users.urls')),
     path('tasks/', include('task_manager.tasks.urls')),

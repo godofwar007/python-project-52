@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
@@ -13,8 +14,6 @@ DEBUG = os.getenv('DEBUG')
 ALLOWED_HOSTS = ['webserver', '127.0.0.1',
                  'python-project-52-ilb5.onrender.com']
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -28,7 +27,7 @@ INSTALLED_APPS = [
     'task_manager.statuses',
     'task_manager.tasks',
     'task_manager.labels',
-
+    'django_filters',
 
 ]
 
@@ -40,7 +39,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
+
+
+ROLLBAR = {
+    'access_token': 'de5e74c7436544358d65510bdb0dfbd6',
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}
+
 
 ROOT_URLCONF = 'task_manager.urls'
 
