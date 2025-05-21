@@ -6,9 +6,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from task_manager.tasks.models import Task
 
 from .forms import UserRegistrationForm
 from .mixins import UserPermissionMixin
@@ -31,7 +31,8 @@ class UserCreateView(CreateView):
     success_url = reverse_lazy("login")
 
     def form_valid(self, form):
-        messages.success(self.request, _("User successfully registered"))
+        messages.success(self.request,
+                         "Пользователь успешно зарегистрирован")
         return super().form_valid(form)
 
 
@@ -48,7 +49,7 @@ class UserUpdateView(LoginRequiredMixin, UserPermissionMixin, UpdateView):
 
 class UserDeleteView(LoginRequiredMixin, UserPermissionMixin, DeleteView):
     model = User
-    template_name = "users/user_confirm_delete.html"
+    template_name = "users/delete.html"
     success_url = reverse_lazy("users")
 
     def post(self, request, *args, **kwargs):
@@ -71,7 +72,7 @@ class UserLoginView(LoginView):
     next_page = reverse_lazy("home")
 
     def form_valid(self, form):
-        messages.success(self.request, _("You are logged in"))
+        messages.success(self.request, "Вы залогинены")
         return super().form_valid(form)
 
 
@@ -79,5 +80,5 @@ class UserLogoutView(LogoutView):
     next_page = reverse_lazy("home")
 
     def dispatch(self, request, *args, **kwargs):
-        messages.info(request, _("You are logged out"))
+        messages.info(request, "Вы разлогинены")
         return super().dispatch(request, *args, **kwargs)

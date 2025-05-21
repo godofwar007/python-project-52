@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}{{ task.name }}{% endblock %}
+
+{% block content %}
+<h1>Просмотр задачи</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h2>{{ task.name }}</h2>
+        <p>{{ task.description }}</p>
+        <hr class="my-4">
+
+        <p><strong>Автор:</strong> {{ task.creator.first_name }} {{ task.creator.last_name }}</p>
+        <p><strong>Исполнитель:</strong>
+            {% if task.executor %}
+            {{ task.executor.first_name }} {{ task.executor.last_name }}
+            {% else %}
+            -
+            {% endif %}
+        </p>
+        <p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+        <p>
+            <strong>Метки:</strong>
+            {% if task.labels.all %}
+            {% for label in task.labels.all %}
+            <span class="badge bg-secondary me-1">{{ label.name }}</span>
+            {% endfor %}
+            {% else %}
+            -
+            {% endif %}
+        </p>
+        <p><strong>Статус:</strong> {{ task.status.name }}</p>
+
+
+    </div>
+</div>
+
+<a href="{% url 'tasks' %}" class="btn btn-primary">Назад</a>
+<a href="{% url 'task_update' task.id %}" class="btn btn-secondary">Редактировать</a>
+<a href="{% url 'task_delete' task.id %}" class="btn btn-danger">Удалить</a>
+{% endblock %}

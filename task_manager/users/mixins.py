@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
-from django.utils.translation import gettext as _
 
 
 class UserPermissionMixin(UserPassesTestMixin):
@@ -10,6 +9,7 @@ class UserPermissionMixin(UserPassesTestMixin):
 
     def handle_no_permission(self):
         messages.error(
-            self.request, _("You have no rights to change another user")
+            self.request,
+            "У вас нет прав для изменения другого пользователя."
         )
         return redirect("users")

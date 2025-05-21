@@ -1,14 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
 
 
 class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(
         max_length=30,
         required=True,
-        label=_("Имя"),
+        label="Имя",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Имя'
@@ -17,7 +16,7 @@ class UserRegistrationForm(UserCreationForm):
     last_name = forms.CharField(
         max_length=30,
         required=True,
-        label=_("Фамилия"),
+        label="Фамилия",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Фамилия'
@@ -26,31 +25,31 @@ class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
         max_length=150,
         required=True,
-        label=_("Имя пользователя"),
-        help_text=_(
-            "Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_"),
+        label="Имя пользователя",
+        help_text="Обязательное поле. Не более 150 символов. "
+        "Только буквы, цифры и символы @/./+/-/_",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Имя пользователя'
         })
     )
     password1 = forms.CharField(
-        label=_("Пароль"),
+        label="Пароль",
         strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Пароль'
         }),
-        help_text=_("Ваш пароль должен содержать как минимум 3 символа.")
+        help_text="Ваш пароль должен содержать как минимум 3 символа."
     )
     password2 = forms.CharField(
-        label=_("Подтверждение пароля"),
+        label="Подтверждение пароля",
         strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Подтверждение пароля'
         }),
-        help_text=_("Для подтверждения введите, пожалуйста, пароль ещё раз.")
+        help_text="Для подтверждения введите, пожалуйста, пароль ещё раз."
     )
 
     class Meta:
@@ -74,14 +73,14 @@ class UserRegistrationForm(UserCreationForm):
             .exists()
         ):
             raise forms.ValidationError(
-                _("Пользователь с таким логином уже существует.")
+                "Пользователь с таким логином уже существует."
             )
         elif (
             not user_instance
             and User.objects.filter(username=username).exists()
         ):
             raise forms.ValidationError(
-                _("Пользователь с таким логином уже существует.")
+                "Пользователь с таким логином уже существует."
             )
 
         return username

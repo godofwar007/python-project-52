@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}Задачи{% endblock %}
+
+{% block content %}
+<h1>Задачи</h1>
+
+<a href="{% url 'task_create' %}" class="btn btn-primary mb-3">Создать задачу</a>
+
+<form method="get" class="card card-body mb-4">
+    {% bootstrap_form filter.form %}
+    <button type="submit" class="btn btn-primary">Показать</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Статус</th>
+            <th>Автор</th>
+            <th>Исполнитель</th>
+            <th>Дата создания</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td><a href="{% url 'task_detail' task.id %}">{{ task.name }}</a></td>
+            <td>{{ task.status.name }}</td>
+            <td>{{ task.creator.get_full_name }}</td>
+            <td>
+                {% if task.executor %}
+                {{ task.executor.get_full_name }}
+                {% else %}
+                —
+                {% endif %}
+            </td>
+            <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
+            <td>
+                <a href="{% url 'task_update' task.id %}" class="btn btn-secondary btn-sm">Изменить</a>
+                <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center">Нет задач</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
