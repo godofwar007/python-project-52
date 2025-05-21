@@ -43,7 +43,7 @@ class UserUpdateView(LoginRequiredMixin, UserPermissionMixin, UpdateView):
     success_url = reverse_lazy("users")
 
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно обновлён")
+        messages.success(self.request, "Пользователь успешно изменен")
         return super().form_valid(form)
 
 
