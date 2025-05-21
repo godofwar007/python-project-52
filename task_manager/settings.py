@@ -2,6 +2,7 @@ import os
 
 from pathlib import Path
 from dotenv import load_dotenv
+import rollbar
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,14 +43,13 @@ MIDDLEWARE = [
     "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
-
-ROLLBAR = {
-    'access_token': '0dbd6ee3727545588ec402b13837fc3b0026dcd334221fb8c8bf21159182168cf12975039ad7f387c091e21e30153436',
-    'environment': 'development' if DEBUG else 'production',
-    'code_version': '1.0',
-    'root': BASE_DIR,
-}
-
+if not rollbar._initialized:  # Проверка, инициализирован ли Rollbar
+    rollbar.init(
+        access_token=os.getenv("ACCESS_TOKEN"),
+        environment="development" if DEBUG else "production",
+        code_version="1.0",
+        root=BASE_DIR,
+    )
 
 ROOT_URLCONF = 'task_manager.urls'
 
