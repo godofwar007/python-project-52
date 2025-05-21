@@ -2,7 +2,8 @@ import os
 
 from pathlib import Path
 from dotenv import load_dotenv
-import rollbar
+# import rollbar
+import dj_database_url
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,7 +82,10 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DATABASE_URL = os.getenv("DATABASE_URL")
 
+if DATABASE_URL:
+    DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
