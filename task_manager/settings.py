@@ -43,13 +43,13 @@ MIDDLEWARE = [
     "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
-if not rollbar._initialized:  # Проверка, инициализирован ли Rollbar
-    rollbar.init(
-        access_token=os.getenv("ACCESS_TOKEN"),
-        environment="development" if DEBUG else "production",
-        code_version="1.0",
-        root=BASE_DIR,
-    )
+# if not rollbar._initialized:
+#     rollbar.init(
+#         access_token=os.getenv("ACCESS_TOKEN"),
+#         environment="development" if DEBUG else "production",
+#         code_version="1.0",
+#         root=BASE_DIR,
+#     )
 
 ROOT_URLCONF = 'task_manager.urls'
 
