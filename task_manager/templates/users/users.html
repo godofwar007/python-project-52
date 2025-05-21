@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}"Users_page"{% endblock %}
+
+{% block content %}
+<h1>"Users"</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>"Username" </th>
+            <th>"Full name" </th>
+            <th> "Date joined" </th>
+            <th> "Actions" </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
+            <td>
+
+                <a href="{% url 'user_update' user.id %}" class="btn btn-primary btn-sm">"Update" </a>
+                <a href="{% url 'user_delete' user.id %}" class="btn btn-danger btn-sm">"Delete"</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

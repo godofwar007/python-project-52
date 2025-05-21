@@ -12,3 +12,5 @@ ruff:
 	uv run ruff check task_manager/
 format:
 	uv run black task_manager/
+test:
+	python3 manage.py test
