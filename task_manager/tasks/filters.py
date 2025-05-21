@@ -28,23 +28,23 @@ class TaskFilter(django_filters.FilterSet):
         fields = ["status", "executor", "labels", "self_tasks"]
 
     status = django_filters.ModelChoiceFilter(
-        label=("Статус"),
+        label="Статус",
         queryset=Status.objects.all(),
     )
 
     executor = django_filters.ModelChoiceFilter(
-        label=("Исполнитель"),
+        label="Исполнитель",
         queryset=User.objects.all(),
     )
 
     labels = django_filters.ModelChoiceFilter(
-        label=("Метка"),
+        label="Метка",
         queryset=Label.objects.all(),
         method="filter_by_labels",
     )
 
     self_tasks = django_filters.BooleanFilter(
-        label=("Только свои задачи"),
+        label="Только свои задачи",
         method="filter_self_tasks",
         widget=forms.CheckboxInput,
     )
