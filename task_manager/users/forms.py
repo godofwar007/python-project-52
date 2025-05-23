@@ -64,23 +64,13 @@ class UserRegistrationForm(UserCreationForm):
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
-        user_instance = getattr(self, "instance", None)
+        queryset = User.objects.filter(username=username)
 
-        if (
-            user_instance
-            and User.objects.filter(username=username)
-            .exclude(pk=user_instance.pk)
-            .exists()
-        ):
+        if self.instance.pk:
+            queryset = queryset.exclude(pk=self.instance.pk)
+
+        if queryset.exists():
             raise forms.ValidationError(
-                "Пользователь с таким логином уже существует."
-            )
-        elif (
-            not user_instance
-            and User.objects.filter(username=username).exists()
-        ):
-            raise forms.ValidationError(
-                "Пользователь с таким логином уже существует."
-            )
+                "Пользователь с таким логином уже существует.")
 
         return username
