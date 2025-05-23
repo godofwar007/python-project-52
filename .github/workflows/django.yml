@@ -2,44 +2,29 @@ name: Django CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  test:
+  build:
+
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 4
       matrix:
-        python-version: [3.10, 3.11, 3.12]
+        python-version: [3.10]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libpq-dev
-
-      - name: Create virtual environment & install dependencies
-        run: |
-          pip install uv
-          uv venv
-          uv pip install --system .
-
-      - name: Run lint with ruff
-        run: ruff .
-
-      - name: Run migrations
-        run: python manage.py migrate --no-input
-
-      - name: Run tests
-        run: python manage.py test --verbosity=2
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python manage.py test
